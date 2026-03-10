@@ -22,25 +22,27 @@ The Terraform configuration creates the following infrastructure:
 - 1 Public EC2 Instance
 - 1 Private EC2 Instance
 
-### VPC Structure
+## VPC Structure
 
+```
 VPC
 │
 ├── Internet Gateway
 │
 ├── Public Subnet 1 (AZ-a)
-│      └── EC2 Instance
+│   └── EC2 Instance
 │
 ├── Public Subnet 2 (AZ-b)
 │
 ├── Private Subnet 1 (AZ-a)
-│      └── EC2 Instance
+│   └── EC2 Instance
 │
 └── Private Subnet 2 (AZ-b)
+```
 
+## Project Structure
 
-#### Overall Project Structure
-
+```
 terraform-module-project
 │
 ├── backend.tf
@@ -55,3 +57,4 @@ terraform-module-project
 └── ec2
     ├── main.tf
     └── variables.tf
+```

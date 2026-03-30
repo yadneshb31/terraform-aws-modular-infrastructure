@@ -24,7 +24,7 @@ module "vpc" {
             public = false
         }
 
-        private-subnet-1 = {
+        private-subnet-2 = {
             cidr_block = "192.168.3.0/24"
             availability_zone = "us-east-1b"
             public = false

@@ -30,7 +30,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                sh 'terraform init -input=false'
             }
         }
 
@@ -52,11 +52,11 @@ pipeline {
             }
         }
 
-        stage('Manual Approval') {
+        /*stage('Manual Approval') {
             steps {
                 input message: 'Apply Terraform changes?', ok: 'Yes, Apply'
             }
-        }
+        }*/
 
         stage('Terraform Apply') {
             steps {

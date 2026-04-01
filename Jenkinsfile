@@ -8,7 +8,7 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        /*stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/yadneshb31/terraform-aws-modular-infrastructure.git'
             }
@@ -26,7 +26,7 @@ pipeline {
                 terraform -version
                 '''
             }
-        }
+        }*/
 
         stage('Terraform Init') {
             steps {

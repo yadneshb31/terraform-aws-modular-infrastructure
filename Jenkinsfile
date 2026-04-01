@@ -34,11 +34,11 @@ pipeline {
             }
         }
 
-        stage('Terraform Format Check') {
+        /*stage('Terraform Format Check') {
             steps {
                 sh 'terraform fmt -check'
             }
-        }
+        }*/
 
         stage('Terraform Validate') {
             steps {

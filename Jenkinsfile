@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-repo.git'
+                git branch: 'main', url: 'https://github.com/yadneshb31/terraform-aws-modular-infrastructure.git'
             }
         }
 
@@ -67,10 +67,10 @@ pipeline {
 
     post {
         success {
-            echo 'Infrastructure deployed successfully 🚀'
+            echo 'Infrastructure deployed successfully'
         }
         failure {
-            echo 'Something broke ❌ Check logs'
+            echo 'Something broke, Check logs'
         }
     }
 }

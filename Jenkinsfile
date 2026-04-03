@@ -2,43 +2,30 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = "us-east-1"
-        TF_VERSION = "1.6.0"
+        AWS_DEFAULT_REGION = 'us-east-1'
     }
 
     stages {
 
-        /*stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/yadneshb31/terraform-aws-modular-infrastructure.git'
+                git branch: 'main',
+                url: 'https://github.com/yadneshb31/terraform-aws-modular-infrastructure.git'
             }
         }
-
-        stage('Install Terraform') {
-            steps {
-                sh '''
-                if ! command -v terraform &> /dev/null
-                then
-                    wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
-                    unzip terraform_${TF_VERSION}_linux_amd64.zip
-                    sudo mv terraform /usr/local/bin/
-                fi
-                terraform -version
-                '''
-            }
-        }*/
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init -input=false'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds'
+                ]]) {
+                    sh '''
+                        terraform init -input=false
+                    '''
+                }
             }
         }
-
-        /*stage('Terraform Format Check') {
-            steps {
-                sh 'terraform fmt -check'
-            }
-        }*/
 
         stage('Terraform Validate') {
             steps {
@@ -48,29 +35,35 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds'
+                ]]) {
+                    sh 'terraform plan'
+                }
             }
         }
 
-        /*stage('Manual Approval') {
-            steps {
-                input message: 'Apply Terraform changes?', ok: 'Yes, Apply'
-            }
-        }*/
-
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                input message: 'Approve Terraform Apply?', ok: 'Apply Now'
+                
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds'
+                ]]) {
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'Infrastructure deployed successfully'
+            echo 'Infrastructure deployed successfully 🚀'
         }
         failure {
-            echo 'Something broke, Check logs'
+            echo 'Something broke, check logs ❌'
         }
     }
 }

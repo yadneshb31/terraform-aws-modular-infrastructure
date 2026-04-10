@@ -9,6 +9,8 @@ resource "aws_instance" "public_ec2" {
 
     associate_public_ip_address = true
 
+    user_data = file("${path.module}/user_data.sh")
+
     tags = {
         Name = "public-ec2"
     }
@@ -30,5 +32,6 @@ resource "aws_instance" "private_ec2" {
     tags = {
         Name = "private-ec2"
     }
+
   
 }
